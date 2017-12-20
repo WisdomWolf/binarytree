@@ -1595,7 +1595,7 @@ class Node(object):
         return node_values
 
 
-def build(values):
+def build(values, bst=False):
     """Build a binary tree from a `list representation`_ (i.e. a list of
     node values and/or None's in breath-first order) and return its root.
 
@@ -1640,6 +1640,23 @@ def build(values):
         NodeNotFoundError: Parent node missing at index 0
     """
     nodes = [None if v is None else Node(v) for v in values]
+
+    if bst:
+        root = Node(values.pop(0))
+        leaves = set()
+
+        for value in values:
+            node = root
+            inserted = False
+
+            while not inserted:
+                attr = 'left' if node.value > value else 'right'
+                if getattr(node, attr) is None:
+                    setattr(node, attr, Node(value))
+                    inserted = True
+                node = getattr(node, attr)
+
+        return root
 
     for index in range(1, len(nodes)):
         node = nodes[index]
