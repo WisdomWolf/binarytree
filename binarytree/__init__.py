@@ -1642,10 +1642,10 @@ def build(values, bst=False):
     nodes = [None if v is None else Node(v) for v in values]
 
     if bst:
-        root = Node(values.pop(0))
+        root = Node(values[0])
         leaves = set()
 
-        for value in values:
+        for value in values[1:]:
             node = root
             inserted = False
 
